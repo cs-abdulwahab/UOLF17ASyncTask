@@ -45,6 +45,9 @@ public class MainActivity extends AppCompatActivity {
                 mtask.cancel(true);
 
 
+                TextView txtProgress = findViewById(R.id.textView);
+                txtProgress.setText("Cancelled ");
+
                 ProgressBar progressBar = findViewById(R.id.progressBar);
                 progressBar.setVisibility(View.GONE);
 
