@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -13,12 +14,42 @@ public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "MTAG";
 
+    MyTask mtask;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        new MyTask(this).execute(2, 34, 5, 2, 2);
+        ProgressBar progressBar = findViewById(R.id.progressBar);
+        progressBar.setVisibility(View.GONE);
+
+
+        Button btnStart = findViewById(R.id.btnStart);
+        btnStart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                mtask = new MyTask(MainActivity.this);
+                mtask.execute(100);
+
+            }
+        });
+
+
+        Button btnCancel = findViewById(R.id.btnCancel);
+        btnCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                mtask.cancel(true);
+
+
+                ProgressBar progressBar = findViewById(R.id.progressBar);
+                progressBar.setVisibility(View.GONE);
+
+            }
+        });
 
     }
 
@@ -43,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected Boolean doInBackground(Integer... nums) {
 
-            for (int i = 0; i < 100; i++) {
+            for (int i = 0; i < nums[0]; i++) {
                 try {
                     Thread.sleep(1000);
                 } catch (InterruptedException e) {
